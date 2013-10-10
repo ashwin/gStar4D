@@ -69,6 +69,7 @@ int main( int argc, const char* argv[] )
     ////
 
     int idx = 1;
+    bool printHelp = false;
 
     while ( idx < argc )
     {
@@ -148,14 +149,26 @@ int main( int argc, const char* argv[] )
         {
             config._doSorting = true;
         }
+        else if ( 0 == string( "--help" ).compare( argv[ idx ] ) )
+        {
+            printHelp = true;
+        }
+        else if ( 0 == string( "-h" ).compare( argv[ idx ] ) )
+        {
+            printHelp = true;
+        }
         else
         {
             cout << "Error in input argument: " << argv[ idx ] << endl << endl;
+            printHelp = true;
+        }
 
-            cout << "Syntax: GDelaunay [-n PointNum] [-g GridSize] [-s Seed] [-r Max] [-d Distribution] [-f FacetMax] [-verbose] [-stats] [-timing] [-check]" << endl; 
+        if (printHelp)
+        {
+
+            cout << "Syntax: gstar4d [-n PointNum] [-g GridSize] [-s Seed] [-r Max] [-d Distribution] [-f FacetMax] [-verbose] [-stats] [-timing] [-check]" << endl; 
             cout << "Distribution: 0 - Uniform, 1 - Gaussian, 2 - Ball, 3 - Sphere, 4 - Grid" << endl;
-
-            exit( 1 );
+            exit(1);
         }
 
         ++idx; 

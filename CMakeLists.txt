@@ -1,0 +1,43 @@
+cmake_minimum_required(VERSION 2.8)
+find_package(CUDA QUIET REQUIRED)
+set(CUDA_NVCC_FLAGS ${CUDA_NVCC_FLAGS};-O3 -gencode arch=compute_35,code=sm_35)
+include_directories(
+    GDelaunay/Common
+    GDelaunay/GDelaunay
+    GDelaunay/Main
+    GDelaunay/PBA
+    )
+cuda_add_executable(
+    gstar4d
+    GDelaunay/Common/Config.h
+    GDelaunay/Common/CudaWrapper.h
+    GDelaunay/Common/DtRandom.cpp
+    GDelaunay/Common/DtRandom.h
+    GDelaunay/Common/Geometry.cu
+    GDelaunay/Common/Geometry.h
+    GDelaunay/Common/PerfTimer.h
+    GDelaunay/Common/predicates.c
+    GDelaunay/Common/STLWrapper.h
+    GDelaunay/Common/ThrustWrapper.h
+    GDelaunay/GDelaunay/GDelaunay.cpp
+    GDelaunay/GDelaunay/GDelaunay.h
+    GDelaunay/GDelaunay/GDelCommon.cu
+    GDelaunay/GDelaunay/GDelCommon.h
+    GDelaunay/GDelaunay/GDelData.cu
+    GDelaunay/GDelaunay/GDelData.h
+    GDelaunay/GDelaunay/GDelHost.cu
+    GDelaunay/GDelaunay/GDelHost.h
+    GDelaunay/GDelaunay/GDelKernels.cu
+    GDelaunay/GDelaunay/GDelKernels.h
+    GDelaunay/GDelaunay/GDelPredDevice.h
+    GDelaunay/GDelaunay/GDelPredKernels.cu
+    GDelaunay/GDelaunay/GDelShewchukDevice.h
+    GDelaunay/Main/Application.cpp
+    GDelaunay/Main/Application.h
+    GDelaunay/Main/Main.cpp
+    GDelaunay/PBA/pba3D.h
+    GDelaunay/PBA/pba3DHost.cu
+    GDelaunay/PBA/pba3DKernel.h
+    GDelaunay/PBA/Pba.cu
+    GDelaunay/PBA/Pba.h
+    )

@@ -116,13 +116,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
-#define CPU86
-#ifdef CPU86
+#ifdef _WIN32
 #include <float.h>
-#endif /* CPU86 */
-#ifdef LINUX
+#else
 #include <fpu_control.h>
-#endif /* LINUX */
+#endif
 
 /* On some machines, the exact arithmetic routines might be defeated by the  */
 /*   use of internal extended precision floating-point registers.  Sometimes */
@@ -402,25 +400,20 @@ void exactinit()
   REAL half;
   REAL check, lastcheck;
   int every_other;
-#ifdef LINUX
-  int cword;
-#endif /* LINUX */
 
-#ifdef CPU86
+#ifdef _WIN32
 #ifdef SINGLE
   _control87(_PC_24, _MCW_PC); /* Set FPU control word for single precision. */
-#else /* not SINGLE */
+#else
   _control87(_PC_53, _MCW_PC); /* Set FPU control word for double precision. */
-#endif /* not SINGLE */
-#endif /* CPU86 */
-#ifdef LINUX
+#endif
+#else
+  int cword;
 #ifdef SINGLE
-  /*  cword = 4223; */
-  cword = 4210;                 /* set FPU control word for single precision */
-#else /* not SINGLE */
-  /*  cword = 4735; */
-  cword = 4722;                 /* set FPU control word for double precision */
-#endif /* not SINGLE */
+  cword = 4210; /* set FPU control word for single precision */
+#else
+  cword = 4722; /* set FPU control word for double precision */
+#endif
   _FPU_SETCW(cword);
 #endif /* LINUX */
 

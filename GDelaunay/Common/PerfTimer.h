@@ -39,45 +39,101 @@ DAMAGE.
 #include "CudaWrapper.h"
 #include "STLWrapper.h"
 
-// Always define NOMINMAX before including windows.h to prevent
-// strange errors wherever min() and max() are used in any context.
+#ifdef _WIN32
+
 #define NOMINMAX
 #include <windows.h>
 
-class PerfTimer
+struct PerfTimer
 {
-private:
-    // Members
-    float           _freq;
-    LARGE_INTEGER   _time1;
-    LARGE_INTEGER   _time2;
+    float         _freq;
+    LARGE_INTEGER _startTime;
+    LARGE_INTEGER _stopTime;
 
-public:
-    // C/D-tors
-    PerfTimer();
-    ~PerfTimer();
+    PerfTimer()
+    {
+        LARGE_INTEGER freq;
+        QueryPerformanceFrequency(&freq);
+        _freq = 1.0f / freq.QuadPart;
+    }
 
-    // Functions
-    void start();
-    void stop();
-    double value() const;
+    void start()
+    {
+        QueryPerformanceCounter(&_startTime);
+    }
+
+    void stop()
+    {
+        QueryPerformanceCounter(&_stopTime);
+    }
+
+    double value() const
+    {
+        return (_stopTime.QuadPart - _startTime.QuadPart) * _freq;
+    }
 };
+
+#else
+
+#include <sys/time.h>
+
+const long long NANO_PER_SEC = 1000000000LL;
+const long long MICRO_TO_NANO = 1000LL;
+
+struct PerfTimer
+{
+    long long _startTime;
+    long long _stopTime;
+
+    long long _getTime()
+    {
+        struct timeval tv;
+        long long ntime;
+
+        if (0 == gettimeofday(&tv, NULL))
+        {
+            ntime  = NANO_PER_SEC;
+            ntime *= tv.tv_sec;
+            ntime += tv.tv_usec * MICRO_TO_NANO;
+        }
+        else
+        {
+            cout << "Error! Timer not working!" << endl;
+        }
+
+        return ntime;
+    }
+
+    void start()
+    {
+        _startTime = _getTime();
+    }
+
+    void stop()
+    {
+        _stopTime = _getTime();
+    }
+
+    double value() const
+    {
+        return ((double) _stopTime - _startTime) / NANO_PER_SEC;
+    }
+};
+#endif
 
 class HostTimer : public PerfTimer
 {
 public:
     void start()
     {
-        CudaSafeCall( cudaDeviceSynchronize() );
+        CudaSafeCall(cudaDeviceSynchronize());
         PerfTimer::start();
-        return;
     }
 
     void stop()
     {
-        CudaSafeCall( cudaDeviceSynchronize() );
+        CudaSafeCall(cudaDeviceSynchronize());
         PerfTimer::stop();
-        return;
     }
 
     double value()
@@ -85,10 +141,9 @@ public:
         return PerfTimer::value() * 1000;
     }
 
-    void print( const string outStr = "" )
+    void print(const string outStr = "")
     {
         cout << "Time: " << value() << " for " << outStr << endl;
-        return;
     }
 };
 

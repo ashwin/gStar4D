@@ -360,7 +360,7 @@ __global__ void kernelMergeBands(int *stack, short *forward, int size, int mod, 
     lastY = band2 * bandSize; 
 
     if (tex1Dfetch(pbaTexPointer, TOID(tx, firstY, tz, size)) == -INFINITY) 
-        forward[TOID(tx, firstY, tz, size)] = -abs(tex1Dfetch(pbaTexPointer, TOID(tx, lastY, tz, size))); 
+        forward[TOID(tx, firstY, tz, size)] = -fabsf(tex1Dfetch(pbaTexPointer, TOID(tx, lastY, tz, size))); 
 
     // Update the tail pointer
     firstY = band1 * bandSize + bandSize - 1; 

@@ -17,10 +17,31 @@ times over the 3D Delaunay triangulator of CGAL.
 Setup
 =====
 
-This project has been created using Visual Studio 2008 and CUDA 4.0 on
-Windows 7 64-bit OS.
-It has been tested on a workstation with Intel i7 2600K CPU and
+This project has been primarily tested on Windows 7 64-bit OS using Visual
+Studio 2008 and CUDA 4.0.
+This is a workstation with Intel i7 2600K CPU and
 NVIDIA GTX 580 GPU.
+
+On Windows
+----------
+
+Open the GDelaunay solution file using Visual Studio and
+compile with the Release build for maximum performance.
+
+On Linux
+--------
+
+CMake is needed to build gStar4D on Linux. Make sure that the CUDA
+capability values in the CMakeLists.txt file matches that of your GPU.
+
+To build and execute using CMake:
+
+    $ cd gstar4d
+    $ mkdir build
+    $ cd build
+    $ cmake ..
+    $ make
+    $ ./gstar4d --help
 
 Documentation
 =============
@@ -33,12 +54,12 @@ Reference
 
 To refer to gStar4D, please use:
 
-Ashwin Nanjappa, "Delaunay triangulation in R³ on the GPU", PhD thesis,
-School of Computing, National University of Singapore, 2012.
+    Ashwin Nanjappa, "Delaunay triangulation in R3 on the GPU", PhD thesis,
+    School of Computing, National University of Singapore, 2012.
 
 To cite gStar4D, please use this BibTeX entry:
 
-    @phdthesis{ashwin2012,
+    @phdthesis{Ashwin2012GPUDelaunay,
         author = {Nanjappa, Ashwin},
         school = {National University of Singapore},
         title = {Delaunay triangulation in R3 on the {GPU}},
