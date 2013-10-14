@@ -1,14 +1,14 @@
 cmake_minimum_required(VERSION 2.8)
 find_package(CUDA QUIET REQUIRED)
-set(CUDA_NVCC_FLAGS ${CUDA_NVCC_FLAGS};-O3 -gencode arch=compute_35,code=sm_35)
+set(CMAKE_BUILD_TYPE Release)
+set(CUDA_NVCC_FLAGS ${CUDA_NVCC_FLAGS}; -gencode arch=compute_35,code=sm_35)
 include_directories(
     GDelaunay/Common
     GDelaunay/GDelaunay
     GDelaunay/Main
     GDelaunay/PBA
     )
-cuda_add_executable(
-    gstar4d
+set(GSTAR4D_SOURCE_FILES
     GDelaunay/Common/Config.h
     GDelaunay/Common/CudaWrapper.h
     GDelaunay/Common/DtRandom.cpp
@@ -40,4 +40,8 @@ cuda_add_executable(
     GDelaunay/PBA/pba3DKernel.h
     GDelaunay/PBA/Pba.cu
     GDelaunay/PBA/Pba.h
+    )
+cuda_add_executable(
+    gstar4d
+    ${GSTAR4D_SOURCE_FILES}
     )
