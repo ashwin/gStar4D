@@ -1,0 +1,116 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Common">
+      <UniqueIdentifier>{c17dbf46-6fbd-4349-b663-ff83ed688f41}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GDelaunay">
+      <UniqueIdentifier>{57163ecd-30d1-4a70-9f27-7d20eea346b1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Main">
+      <UniqueIdentifier>{42fd295a-0012-4181-b979-ab1b5139ee09}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="PBA">
+      <UniqueIdentifier>{76b841a5-d756-45b7-8ae6-a4096bd0b41e}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Common\Config.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\CudaWrapper.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\DtRandom.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\Geometry.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\PerfTimer.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\STLWrapper.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\ThrustWrapper.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="GDelaunay\GDelaunay.h">
+      <Filter>GDelaunay</Filter>
+    </ClInclude>
+    <ClInclude Include="GDelaunay\GDelCommon.h">
+      <Filter>GDelaunay</Filter>
+    </ClInclude>
+    <ClInclude Include="GDelaunay\GDelData.h">
+      <Filter>GDelaunay</Filter>
+    </ClInclude>
+    <ClInclude Include="GDelaunay\GDelHost.h">
+      <Filter>GDelaunay</Filter>
+    </ClInclude>
+    <ClInclude Include="GDelaunay\GDelKernels.h">
+      <Filter>GDelaunay</Filter>
+    </ClInclude>
+    <ClInclude Include="GDelaunay\GDelPredDevice.h">
+      <Filter>GDelaunay</Filter>
+    </ClInclude>
+    <ClInclude Include="GDelaunay\GDelShewchukDevice.h">
+      <Filter>GDelaunay</Filter>
+    </ClInclude>
+    <ClInclude Include="PBA\Pba.h">
+      <Filter>PBA</Filter>
+    </ClInclude>
+    <ClInclude Include="PBA\pba3D.h">
+      <Filter>PBA</Filter>
+    </ClInclude>
+    <ClInclude Include="PBA\pba3DKernel.h">
+      <Filter>PBA</Filter>
+    </ClInclude>
+    <ClInclude Include="Main\Application.h">
+      <Filter>Main</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Common\DtRandom.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Common\predicates.c">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="GDelaunay\GDelaunay.cpp">
+      <Filter>GDelaunay</Filter>
+    </ClCompile>
+    <ClCompile Include="Main\Application.cpp">
+      <Filter>Main</Filter>
+    </ClCompile>
+    <ClCompile Include="Main\Main.cpp">
+      <Filter>Main</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <CudaCompile Include="GDelaunay\GDelPredKernels.cu">
+      <Filter>GDelaunay</Filter>
+    </CudaCompile>
+    <CudaCompile Include="GDelaunay\GDelCommon.cu">
+      <Filter>GDelaunay</Filter>
+    </CudaCompile>
+    <CudaCompile Include="GDelaunay\GDelData.cu">
+      <Filter>GDelaunay</Filter>
+    </CudaCompile>
+    <CudaCompile Include="GDelaunay\GDelHost.cu">
+      <Filter>GDelaunay</Filter>
+    </CudaCompile>
+    <CudaCompile Include="GDelaunay\GDelKernels.cu">
+      <Filter>GDelaunay</Filter>
+    </CudaCompile>
+    <CudaCompile Include="PBA\pba3DHost.cu">
+      <Filter>PBA</Filter>
+    </CudaCompile>
+    <CudaCompile Include="PBA\Pba.cu">
+      <Filter>PBA</Filter>
+    </CudaCompile>
+    <CudaCompile Include="Common\Geometry.cu">
+      <Filter>Common</Filter>
+    </CudaCompile>
+  </ItemGroup>
+</Project>
