@@ -280,6 +280,8 @@ int             insIdx
         const int insEnd    = ( star < ( starData._starNum - 1 ) ) ? insertData._starVertMap[ star + 1 ] : insertData._vertNum;
         const int insLoc    = insBeg + insIdx;
 
+        CudaAssert( insLoc < insEnd );
+
         ////
         // Check if triangle beneath point
         ////
@@ -392,6 +394,7 @@ int             insIdx
         const int insEnd    = ( star < ( starData._starNum - 1 ) ) ? insertData._starVertMap[ star + 1 ] : insertData._vertNum;
         const int insLoc    = insBeg + insIdx;
 
+        CudaAssert( insLoc < insEnd );
 
         ////
         // Check if triangle beneath point

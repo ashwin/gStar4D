@@ -233,8 +233,8 @@ __global__ void kernelMaurerAxis(int *stack, int size, int mod, int bandSize)
     int ty = band * bandSize; 
     int tz = blockIdx.y * blockDim.y + threadIdx.y; 
 
-    int lastY = INFINITY; 
-    int stackX_1, stackY_1 = INFINITY, stackZ_1, stackX_2, stackY_2 = INFINITY, stackZ_2; 
+    int lastY = PBA_INFINITY;
+    int stackX_1, stackY_1 = PBA_INFINITY, stackZ_1, stackX_2, stackY_2 = PBA_INFINITY, stackZ_2;
     int p = MARKER;
     int nx, ny, nz, s1, s2; 
     float i1, i2;     
@@ -243,7 +243,7 @@ __global__ void kernelMaurerAxis(int *stack, int size, int mod, int bandSize)
         p = tex1Dfetch(pbaTexColor, TOID(tx, ty, tz, size));
 
         if (p != MARKER) {
-            while (stackY_2 != INFINITY) {
+            while (stackY_2 != PBA_INFINITY) {
                 DECODE(s1, stackX_1, stackY_1, stackZ_1); 
                 DECODE(s2, stackX_2, stackY_2, stackZ_2); 
                 i1 = interpointY(stackX_1, stackY_2, stackZ_1, stackX_2, lastY, stackZ_2, tx, tz); 
@@ -255,7 +255,7 @@ __global__ void kernelMaurerAxis(int *stack, int size, int mod, int bandSize)
 
                 lastY = stackY_2; s2 = s1; stackY_2 = stackY_1;
 
-                if (stackY_2 != INFINITY)
+                if (stackY_2 != PBA_INFINITY)
                     s1 = stack[TOID(tx, stackY_2, tz, size)]; 
             }
 
@@ -268,7 +268,7 @@ __global__ void kernelMaurerAxis(int *stack, int size, int mod, int bandSize)
     }
 
     if (p == MARKER) 
-        stack[TOID(tx, ty-1, tz, size)] = ENCODE(INFINITY, lastY, INFINITY); 
+        stack[TOID(tx, ty-1, tz, size)] = ENCODE(PBA_INFINITY, lastY, PBA_INFINITY);
 }
 
 __global__ void kernelMergeBands(int *stack, short *forward, int size, int mod, int bandSize) 
@@ -291,16 +291,16 @@ __global__ void kernelMergeBands(int *stack, short *forward, int size, int mod, 
     p = tex1Dfetch(pbaTexLinks, TOID(tx, lastY, tz, size)); 
     DECODE(p, stack_2.x, stack_2.y, stack_2.z); 
 
-    if (stack_2.x == INFINITY) {     // Not a site
+    if (stack_2.x == PBA_INFINITY) {     // Not a site
         lastY = stack_2.y; 
 
-        if (lastY != INFINITY) {
+        if (lastY != PBA_INFINITY) {
             p = tex1Dfetch(pbaTexLinks, TOID(tx, lastY, tz, size)); 
             DECODE(p, stack_2.x, stack_2.y, stack_2.z); 
         }
     }   
 
-    if (stack_2.y != INFINITY) {
+    if (stack_2.y != PBA_INFINITY) {
         p = tex1Dfetch(pbaTexLinks, TOID(tx, stack_2.y, tz, size)); 
         DECODE(p, stack_1.x, stack_1.y, stack_1.z); 
     }
@@ -311,7 +311,7 @@ __global__ void kernelMergeBands(int *stack, short *forward, int size, int mod, 
     if (next < 0)       // Not a site
         firstY = -next; 
 
-    if (firstY != INFINITY) {
+    if (firstY != PBA_INFINITY) {
         id = TOID(tx, firstY, tz, size); 
         p = tex1Dfetch(pbaTexLinks, id); 
         DECODE(p, current.x, current.y, current.z); 
@@ -319,8 +319,8 @@ __global__ void kernelMergeBands(int *stack, short *forward, int size, int mod, 
 
     int top = 0; 
 
-    while (top < 2 && firstY != INFINITY) {
-        while (stack_2.y != INFINITY) {
+    while (top < 2 && firstY != PBA_INFINITY) {
+        while (stack_2.y != PBA_INFINITY) {
             i1 = interpointY(stack_1.x, stack_2.y, stack_1.z, stack_2.x, lastY, stack_2.z, tx, tz); 
             i2 = interpointY(stack_2.x, lastY, stack_2.z, current.x, firstY, current.z, tx, tz); 
 
@@ -330,7 +330,7 @@ __global__ void kernelMergeBands(int *stack, short *forward, int size, int mod, 
             lastY = stack_2.y; stack_2 = stack_1; 
             top--; 
 
-            if (stack_2.y != INFINITY) {
+            if (stack_2.y != PBA_INFINITY) {
                 p = stack[TOID(tx, stack_2.y, tz, size)]; 
                 DECODE(p, stack_1.x, stack_1.y, stack_1.z); 
             }
@@ -339,7 +339,7 @@ __global__ void kernelMergeBands(int *stack, short *forward, int size, int mod, 
         // Update pointers to link the current node to the stack
         stack[id] = ENCODE(current.x, lastY, current.z); 
 
-        if (lastY != INFINITY) 
+        if (lastY != PBA_INFINITY)
             forward[TOID(tx, lastY, tz, size)] = firstY; 
 
         top = max(1, top + 1); 
@@ -348,7 +348,7 @@ __global__ void kernelMergeBands(int *stack, short *forward, int size, int mod, 
         stack_1 = stack_2; stack_2 = make_int3(current.x, lastY, current.z); lastY = firstY; 
         firstY = tex1Dfetch(pbaTexPointer, id); 
 
-        if (firstY != INFINITY) {
+        if (firstY != PBA_INFINITY) {
             id = TOID(tx, firstY, tz, size); 
             p = tex1Dfetch(pbaTexLinks, id); 
             DECODE(p, current.x, current.y, current.z); 
@@ -359,7 +359,7 @@ __global__ void kernelMergeBands(int *stack, short *forward, int size, int mod, 
     firstY = band1 * bandSize; 
     lastY = band2 * bandSize; 
 
-    if (tex1Dfetch(pbaTexPointer, TOID(tx, firstY, tz, size)) == -INFINITY) 
+    if (tex1Dfetch(pbaTexPointer, TOID(tx, firstY, tz, size)) == -PBA_INFINITY)
         forward[TOID(tx, firstY, tz, size)] = -fabsf(tex1Dfetch(pbaTexPointer, TOID(tx, lastY, tz, size))); 
 
     // Update the tail pointer
@@ -369,11 +369,11 @@ __global__ void kernelMergeBands(int *stack, short *forward, int size, int mod, 
     p = tex1Dfetch(pbaTexLinks, TOID(tx, lastY, tz, size)); 
     DECODE(p, current.x, current.y, current.z); 
 
-    if (current.x == INFINITY && current.y == INFINITY) {
+    if (current.x == PBA_INFINITY && current.y == PBA_INFINITY) {
         p = tex1Dfetch(pbaTexLinks, TOID(tx, firstY, tz, size)); 
         DECODE(p, stack_1.x, stack_1.y, stack_1.z); 
 
-        if (stack_1.x == INFINITY) 
+        if (stack_1.x == PBA_INFINITY)
             current.y = stack_1.y; 
         else
             current.y = firstY; 
@@ -391,13 +391,13 @@ __global__ void kernelCreateForwardPointers(short *output, int size, int mod, in
     int ty = (band+1) * bandSize - 1; 
     int tz = blockIdx.y * blockDim.y + threadIdx.y; 
 
-    int lasty = INFINITY, nexty; 
+    int lasty = PBA_INFINITY, nexty;
     int current, id; 
 
     // Get the tail pointer
     current = tex1Dfetch(pbaTexLinks, TOID(tx, ty, tz, size)); 
 
-    if (GET_X(current) == INFINITY) 
+    if (GET_X(current) == PBA_INFINITY)
         nexty = GET_Y(current); 
     else
         nexty = ty; 
@@ -437,16 +437,16 @@ __global__ void kernelColorAxis(int *output, int size)
         p = tex1Dfetch(pbaTexColor, TOID(tx, lastY, tz, size)); 
         DECODE(p, stack_2.x, stack_2.y, stack_2.z); 
 
-        if (stack_2.x == INFINITY) {     // Not a site
+        if (stack_2.x == PBA_INFINITY) {     // Not a site
             lastY = stack_2.y; 
 
-            if (lastY != INFINITY) {
+            if (lastY != PBA_INFINITY) {
                 p = tex1Dfetch(pbaTexColor, TOID(tx, lastY, tz, size)); 
                 DECODE(p, stack_2.x, stack_2.y, stack_2.z); 
             }
         }
 
-        if (stack_2.y != INFINITY) { 
+        if (stack_2.y != PBA_INFINITY) {
             p = tex1Dfetch(pbaTexColor, TOID(tx, stack_2.y, tz, size)); 
             DECODE(p, stack_1.x, stack_1.y, stack_1.z); 
             ii = interpointY(stack_1.x, stack_2.y, stack_1.z, stack_2.x, lastY, stack_2.z, tx, tz); 
@@ -460,13 +460,13 @@ __global__ void kernelColorAxis(int *output, int size)
     for (int ty = size - 1 - tid; ty >= 0; ty -= blockDim.y) {
         stack_1 = s_Stack1[col]; stack_2 = s_Stack2[col]; lastY = s_lastY[col]; ii = s_ii[col]; 
 
-        while (stack_2.y != INFINITY) {
+        while (stack_2.y != PBA_INFINITY) {
             if (ty > ii) 
                 break; 
 
             lastY = stack_2.y; stack_2 = stack_1;
 
-            if (stack_2.y != INFINITY) {
+            if (stack_2.y != PBA_INFINITY) {
                 p = tex1Dfetch(pbaTexColor, TOID(tx, stack_2.y, tz, size)); 
                 DECODE(p, stack_1.x, stack_1.y, stack_1.z); 
 

@@ -1,7 +1,10 @@
 cmake_minimum_required(VERSION 2.8)
 find_package(CUDA QUIET REQUIRED)
 set(CMAKE_BUILD_TYPE Release)
-set(CUDA_NVCC_FLAGS ${CUDA_NVCC_FLAGS}; -gencode arch=compute_35,code=sm_35)
+set(
+    CUDA_NVCC_FLAGS
+    ${CUDA_NVCC_FLAGS}; -gencode arch=compute_35,code=sm_35
+    )
 include_directories(
     GDelaunay/Common
     GDelaunay/GDelaunay

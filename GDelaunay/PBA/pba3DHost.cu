@@ -45,7 +45,7 @@ using namespace std;
 #define BLOCKY      4
 #define BLOCKXY     16
 
-#define INFINITY    0x3ff
+#define PBA_INFINITY    0x3ff
 
 /****** Global Variables *******/
 int **pbaTextures;   

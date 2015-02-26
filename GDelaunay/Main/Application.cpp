@@ -428,11 +428,11 @@ void Application::makePoints()
                 {
                     float v[3];
 
-                    for ( int i = 0; i < 3; ++i )
+                    for ( int vi = 0; vi < 3; ++vi )
                     {
                         const float val     = randGen.getNext();
                         const float frac    = val - floor( val );
-                        v[ i ]              = ( frac < 0.5f ) ? floor( val ) : ceil( val );
+                        v[ vi ]             = ( frac < 0.5f ) ? floor( val ) : ceil( val );
                     }
 
                     x = v[0];

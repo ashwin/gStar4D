@@ -90,16 +90,12 @@ struct PerfTimer
         struct timeval tv;
         long long ntime;
 
-        if (0 == gettimeofday(&tv, NULL))
-        {
-            ntime  = NANO_PER_SEC;
-            ntime *= tv.tv_sec;
-            ntime += tv.tv_usec * MICRO_TO_NANO;
-        }
-        else
-        {
-            cout << "Error! Timer not working!" << endl;
-        }
+        const int ret = gettimeofday(&tv, NULL);
+        assert(0 == ret);
+
+        ntime  = NANO_PER_SEC;
+        ntime *= tv.tv_sec;
+        ntime += tv.tv_usec * MICRO_TO_NANO;
 
         return ntime;
     }

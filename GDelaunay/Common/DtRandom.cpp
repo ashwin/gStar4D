@@ -56,25 +56,25 @@ void DtRandom::init( int seed, int minVal, int maxVal )
 }
 
 unsigned long DtRandom::znew() 
-{ return (_z = 36969 * (_z & 0xfffful) + (_z >> 16)); };
+{ return (_z = 36969 * (_z & 0xfffful) + (_z >> 16)); }
 
 unsigned long DtRandom::wnew() 
-{ return (_w = 18000 * (_w & 0xfffful) + (_w >> 16)); };
+{ return (_w = 18000 * (_w & 0xfffful) + (_w >> 16)); }
 
 unsigned long DtRandom::MWC()  
-{ return ((znew() << 16) + wnew()); };
+{ return ((znew() << 16) + wnew()); }
 
 unsigned long DtRandom::SHR3()
-{ _jsr ^= (_jsr << 17); _jsr ^= (_jsr >> 13); return (_jsr ^= (_jsr << 5)); };
+{ _jsr ^= (_jsr << 17); _jsr ^= (_jsr >> 13); return (_jsr ^= (_jsr << 5)); }
 
 unsigned long DtRandom::CONG() 
-{ return (_jcong = 69069 * _jcong + 1234567); };
+{ return (_jcong = 69069 * _jcong + 1234567); }
 
 unsigned long DtRandom::rand_int()         // [0,2^32-1]
-{ return ((MWC() ^ CONG()) + SHR3()); };
+{ return ((MWC() ^ CONG()) + SHR3()); }
 
 float DtRandom::random()     // [0,1)
-{ return ((float) rand_int() / (float(ULONG_MAX)+1)); };
+{ return ((float) rand_int() / (float(ULONG_MAX)+1)); }
 
 float DtRandom::getNext()
 {
