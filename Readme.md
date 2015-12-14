@@ -46,8 +46,8 @@ To build and execute using CMake:
 Documentation
 =============
 
-Chapter 6 of my [PhD thesis](http://ash.daariga.com/papers/gdel3d-thesis.pdf)
-explains the gStar4D algorithm in detail.
+Chapter 6 of my [PhD thesis](gdel3d_thesis.pdf) describes the details of the
+gStar4D algorithm.
 
 Reference
 =========
