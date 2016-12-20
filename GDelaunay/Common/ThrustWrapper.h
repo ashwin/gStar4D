@@ -44,6 +44,7 @@ DAMAGE.
 #include <thrust/sequence.h>
 #include <thrust/sort.h>
 #include <thrust/unique.h>
+#include <thrust/extrema.h>
 
 typedef thrust::device_vector< int >    IntTVec;
 typedef thrust::host_vector< int >      IntHVec;
