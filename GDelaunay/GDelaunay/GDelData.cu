@@ -40,6 +40,7 @@ DAMAGE.
 // Project
 #include "Config.h"
 #include "GDelKernels.h"
+#include "thrust/extrema.h"
 
 // Externs
 extern int ThreadsPerBlock;
@@ -116,7 +117,7 @@ void PointData::init( Point3HVec& pointHVec, Point3HVec& scaledHVec )
         else
         {
             thrust::sort_by_key(    orderVec.begin(), orderVec.end(),
-                                    thrust::make_zip_iterator( make_tuple( _pointVec->begin(), _scaledVec->begin() ) ) );
+                                    thrust::make_zip_iterator( thrust::make_tuple( _pointVec->begin(), _scaledVec->begin() ) ) );
         }
 
         // Copy back sorted points to host
