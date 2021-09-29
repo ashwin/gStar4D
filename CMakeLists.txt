@@ -1,4 +1,5 @@
-cmake_minimum_required(VERSION 2.8)
+project(gStar4D)
+cmake_minimum_required(VERSION 3.8)
 find_package(CUDA QUIET REQUIRED)
 set(CMAKE_BUILD_TYPE Release)
 set(
