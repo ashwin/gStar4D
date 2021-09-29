@@ -45,6 +45,7 @@ DAMAGE.
 #include <thrust/sort.h>
 #include <thrust/unique.h>
 #include <thrust/extrema.h>
+#include <thrust/device_malloc.h>
 
 typedef thrust::device_vector< int >    IntTVec;
 typedef thrust::host_vector< int >      IntHVec;
